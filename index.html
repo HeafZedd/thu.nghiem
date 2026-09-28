@@ -18,6 +18,40 @@
             min-height: 100vh;
             box-sizing: border-box;
             position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Lớp nền chữ THỬ NGHIỆM mờ mờ khắp màn hình cho cả ĐT và Máy tính */
+        .watermark-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: space-around;
+            justify-content: space-around;
+            opacity: 0.12; /* Độ mờ */
+            overflow: hidden;
+        }
+
+        .watermark-text {
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ffffff;
+            transform: rotate(-25deg);
+            user-select: none;
+            white-space: nowrap;
+            padding: 20px;
+        }
+
+        /* Đảm bảo các thành phần chính nằm đè lên lớp watermark */
+        .ba-khi-box, .admin-menu-toggle, .admin-panel, .header-container, .grid-container, .modal-overlay {
+            z-index: 5;
         }
 
         /* Hộp hiển thị Bá Khí ở góc trên bên phải */
@@ -202,6 +236,7 @@
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             position: relative;
+            z-index: 1005;
         }
 
         .modal-box h2 {
@@ -268,9 +303,31 @@
             font-size: 16px;
             min-height: 20px;
         }
+
+        /* Responsive cho điện thoại di động */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 10px;
+                padding: 15px;
+                max-width: 100%;
+            }
+            .circle {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+            .watermark-text {
+                font-size: 11px;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Lớp nền chữ THỬ NGHIỆM phủ khắp màn hình -->
+    <div class="watermark-bg" id="watermarkBg"></div>
 
     <!-- Vùng tàng hình ở góc dưới bên trái -->
     <div class="admin-menu-toggle" onclick="toggleAdminMenu()"></div>
@@ -312,6 +369,15 @@
     </div>
 
     <script>
+        // Tự động tạo chữ "THỬ NGHIỆM" phủ kín màn hình
+        const watermarkBg = document.getElementById('watermarkBg');
+        for (let i = 0; i < 40; i++) {
+            const span = document.createElement('span');
+            span.classList.add('watermark-text');
+            span.innerText = "THỬ NGHIỆM";
+            watermarkBg.appendChild(span);
+        }
+
         const grid = document.getElementById('grid');
         const modal = document.getElementById('modal');
         const modalTitle = document.getElementById('modal-title');
@@ -381,72 +447,90 @@
             let qAns = 0;
 
             if (id <= 10) {
-                let type = rand(1, 2);
+                let type = rand(1, 3);
                 if (type === 1) {
-                    let a = rand(1, 30);
-                    let b = rand(1, 30);
-                    qText = `${a} + ${b} = ?`;
-                    qAns = a + b;
+                    let a = rand(10, 40);
+                    let b = rand(1, 15);
+                    let c = rand(1, 10);
+                    qText = `${a} - ${b} + ${c} = ?`;
+                    qAns = a - b + c;
+                } else if (type === 2) {
+                    let a = rand(5, 20);
+                    let b = rand(2, 6);
+                    let c = rand(1, 10);
+                    qText = `${a} + ${b} × ${c} = ?`;
+                    qAns = a + (b * c);
                 } else {
-                    let a = rand(15, 50);
-                    let b = rand(1, a); 
-                    qText = `${a} - ${b} = ?`;
-                    qAns = a - b;
+                    let x = rand(1, 20);
+                    let b = rand(5, 25);
+                    let a = x + b;
+                    qText = `Tìm X biết:\nX + ${b} = ${a}`;
+                    qAns = x;
                 }
             } 
             else if (id <= 30) {
-                let type = rand(1, 2);
-                if (type === 1) { 
-                    let a = rand(2, 12);
-                    let b = rand(2, 15);
-                    qText = `${a} × ${b} = ?`;
-                    qAns = a * b;
-                } else { 
-                    let b = rand(2, 15);
-                    let c = rand(2, 15);
-                    let a = b * c;
-                    qText = `${a} ÷ ${b} = ?`;
-                    qAns = c;
+                let type = rand(1, 3);
+                if (type === 1) {
+                    let a = rand(20, 90);
+                    let b = rand(2, 9);
+                    let c = rand(5, 30);
+                    qText = `${a} - ${b} × ${c} = ?`;
+                    qAns = a - (b * c);
+                } else if (type === 2) {
+                    let x = rand(2, 12);
+                    let b = rand(3, 10);
+                    let c = rand(10, 50);
+                    let a = (b * x) + c;
+                    qText = `Tìm X biết:\n${b} × X + ${c} = ${a}`;
+                    qAns = x;
+                } else {
+                    let a = rand(10, 50);
+                    let b = rand(2, 10);
+                    let c = rand(2, 8);
+                    qText = `(${a} + ${b}) ÷ ${c} = ?`;
+                    qAns = (a + b) / c;
                 }
             }
             else if (id <= 40) {
-                let type = rand(1, 2);
-                if (type === 1) { 
-                    let a = rand(3, 15);
-                    let b = rand(3, 10);
-                    let c = rand(5, 50);
-                    qText = `${a} × ${b} + ${c} = ?`;
-                    qAns = (a * b) + c;
-                } else { 
-                    let x = rand(2, 15);
-                    let a = rand(2, 10);
-                    let b = rand(1, 20);
-                    let c = (a * x) - b;
-                    qText = `Tìm X biết:\n${a} × X - ${b} = ${c}`;
-                    qAns = x;
+                let type = rand(1, 3);
+                if (type === 1) {
+                    let a = rand(2, 9);
+                    let b = rand(5, 20);
+                    let c = rand(2, 8);
+                    qText = `(${a}X - ${b}) ÷ ${c} = 2\nTìm X = ?`;
+                    qAns = (2 * c + b) / a;
+                } else if (type === 2) {
+                    let p = rand(10, 50);
+                    let val = rand(2, 10) * 20;
+                    let total = val * 100 / p;
+                    qText = `Biết ${p}% của một số bằng ${val}.\nHỏi số đó bằng bao nhiêu?`;
+                    qAns = total;
+                } else {
+                    let n = rand(3, 9);
+                    qText = `Tính tổng dãy số:\n1 + 2 + 3 + ... + ${n} = ?`;
+                    qAns = (n * (n + 1)) / 2;
                 }
             }
             else {
                 let type = rand(1, 4);
-                if (type === 1) { 
-                    let k = rand(2, 6);
-                    let c = rand(1, 5);
-                    qText = `Cho hàm số f(x) = ${k}x².\nTính đạo hàm f'(${c}) = ?`;
-                    qAns = 2 * k * c;
-                } else if (type === 2) { 
-                    let a = rand(1, 4);
-                    let k = rand(1, 4) * 2; 
-                    qText = `Tích phân từ 0 đến ${a} của (${k}x)dx = ?`;
-                    qAns = (k / 2) * (a * a);
-                } else if (type === 3) { 
-                    let k = rand(2, 9);
-                    qText = `Tính giới hạn:\nlim(x→0) [sin(${k}x) / x] = ?`;
-                    qAns = k;
-                } else { 
-                    let a = rand(2, 6); let b = rand(1, 5);
-                    let c = rand(1, 5); let d = rand(2, 6);
-                    qText = `Tính định thức ma trận vuông 2x2:\n| ${a}   ${b} |\n| ${c}   ${d} |`;
-                    qAns = (a * d) - (b * c);
+                if (type === 1) {
+                    let a = rand(2, 5);
+                    let b = rand(1, 6);
+                    qText = `Cho hàm số f(x) = ${a}x³ - ${b}x.\nTính đạo hàm f'(2) = ?`;
+                    qAns = a * 3 * (2 * 2) - b;
+                } else if (type === 2) {
+                    let a = rand(2, 6);
+                    qText = `Tính giới hạn:\nlim(x→3) [ (x² - 9) / (x - 3) ] = ?`;
+                    qAns = 6;
+                } else if (type === 3) {
+                    let r = rand(2, 5);
+                    qText = `Tính diện tích hình tròn có bán kính R = ${r}.\n(Lấy pi = 3, kết quả làm tròn hoặc ghi số nguyên gần nhất)`;
+                    qAns = Math.round(3 * r * r);
+                } else {
+                    let a = rand(2, 5);
+                    let b = rand(2, 5);
+                    qText = `Tính thể tích hình hộp chữ nhật\nco các cạnh lần lượt là ${a}, ${b}, ${a}`;
+                    qAns = a * b * a;
                 }
             }
 
@@ -467,17 +551,16 @@
             answerInput.disabled = true;
             submitBtn.disabled = true;
 
-            let userAns = parseInt(answerInput.value.trim());
+            let userAns = parseFloat(answerInput.value.trim());
             let circle = document.getElementById('circle-' + currentCircleId);
 
-            if (userAns === currentQuestionAnswer) {
-                // Kiểm tra xem có phải câu 50 hay không
+            if (Math.abs(userAns - currentQuestionAnswer) < 0.001) {
                 if (currentCircleId === 50) {
-                    baKhiScore += 2000000; // Cộng thêm 2 triệu bá khí cho câu 50
+                    baKhiScore += 2000000;
                     feedback.style.color = "#2ecc71";
                     feedback.innerText = " +2,000,000 Bá Khí (CÂU 50)";
                 } else {
-                    baKhiScore += 999999; // Các câu còn lại +999.999
+                    baKhiScore += 999999;
                     feedback.style.color = "#2ecc71";
                     feedback.innerText = " +999,999 Bá Khí";
                 }
@@ -590,7 +673,6 @@
                     solvedCount++;
                 }
             }
-            // Cộng điểm thông thường cho 49 câu đầu + 2 triệu cho câu 50
             baKhiScore += (49 * 999999) + 2000000;
             updateBaKhiDisplay();
             alert("👑 ĐÃ AUTO HOÀN THÀNH XUẤT SẮC 50 CỬA ẢI VÀ NHẬN THƯỞNG 2 TRIỆU BÁ KHÍ!");
