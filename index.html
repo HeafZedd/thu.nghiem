@@ -21,7 +21,7 @@
             overflow-x: hidden;
         }
 
-        /* Lớp nền chữ THỬ NGHIỆM mờ mờ khắp màn hình cho cả ĐT và Máy tính */
+        /* Lớp nền chữ THỬ NGHIỆM dày đặc khắp màn hình */
         .watermark-bg {
             position: fixed;
             top: 0;
@@ -34,23 +34,23 @@
             flex-wrap: wrap;
             align-content: space-around;
             justify-content: space-around;
-            opacity: 0.12; /* Độ mờ */
+            opacity: 0.12;
             overflow: hidden;
         }
 
         .watermark-text {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             text-transform: uppercase;
             color: #ffffff;
             transform: rotate(-25deg);
             user-select: none;
             white-space: nowrap;
-            padding: 20px;
+            padding: 6px 8px;
         }
 
         /* Đảm bảo các thành phần chính nằm đè lên lớp watermark */
-        .ba-khi-box, .admin-menu-toggle, .admin-panel, .header-container, .grid-container, .modal-overlay {
+        .ba-khi-box, .shop-box, .admin-menu-toggle, .admin-panel, .header-container, .grid-container, .modal-overlay, .shop-modal-overlay {
             z-index: 5;
         }
 
@@ -72,6 +72,31 @@
             z-index: 10;
         }
 
+        /* Nút SHOP ở góc trên bên trái */
+        .shop-box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #e74c3c;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #e74c3c;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .shop-box:hover {
+            background: #e74c3c;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
         /* Vùng tàng hình ở góc dưới bên trái */
         .admin-menu-toggle {
             position: fixed;
@@ -85,7 +110,7 @@
             z-index: 1000;
         }
 
-        /* Bảng Menu Admin ẩn/hiện (Có thể kéo thả) */
+        /* Bảng Menu Admin ẩn/hiện */
         .admin-panel {
             position: fixed;
             bottom: 40px;
@@ -97,13 +122,16 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.7);
             z-index: 1001;
             display: none;
-            width: 260px;
+            width: 270px;
         }
         
-        /* Phần tiêu đề để kéo thả */
         .admin-header {
-            cursor: move;
+            cursor: grab;
             user-select: none;
+            padding-bottom: 5px;
+        }
+        .admin-header:active {
+            cursor: grabbing;
         }
 
         .admin-panel h3 {
@@ -126,6 +154,23 @@
             transition: 0.2s;
         }
         .admin-btn:hover { background: #c0392b; }
+        
+        .admin-btn.cong-hoai-btn {
+            background: #8e44ad;
+        }
+        .admin-btn.cong-hoai-btn:hover {
+            background: #732d91;
+        }
+
+        .admin-btn.ba-khi-edit-btn {
+            background: #f39c12;
+            color: #000;
+        }
+        .admin-btn.ba-khi-edit-btn:hover {
+            background: #d35400;
+            color: #fff;
+        }
+
         #answer-viewer {
             font-size: 13px;
             color: #f1c40f;
@@ -143,6 +188,7 @@
         .header-container {
             text-align: center;
             margin-bottom: 25px;
+            margin-top: 20px;
         }
 
         .main-title {
@@ -166,10 +212,10 @@
         }
 
         /* Màu các cấp độ */
-        .c-lv1 { background: #3498db; } /* 1-10 */
-        .c-lv2 { background: #2ecc71; } /* 11-30 */
-        .c-lv3 { background: #e67e22; } /* 31-40 */
-        .c-lv4 { background: #9b59b6; } /* 41-50 */
+        .c-lv1 { background: #3498db; } 
+        .c-lv2 { background: #2ecc71; } 
+        .c-lv3 { background: #e67e22; } 
+        .c-lv4 { background: #9b59b6; } 
 
         /* Lưới 50 hình tròn */
         .grid-container {
@@ -217,7 +263,7 @@
         }
 
         /* Cửa sổ Popup (Modal) */
-        .modal-overlay {
+        .modal-overlay, .shop-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8);
@@ -227,10 +273,10 @@
             z-index: 1000;
         }
 
-        .modal-box {
+        .modal-box, .shop-modal-box {
             background: #fff;
             color: #333;
-            width: 450px;
+            width: 480px;
             padding: 30px;
             border-radius: 12px;
             text-align: center;
@@ -239,21 +285,125 @@
             z-index: 1005;
         }
 
-        .modal-box h2 {
+        .modal-box h2, .shop-modal-box h2 {
             margin-top: 0;
             color: #e74c3c;
             text-transform: uppercase;
         }
 
         #math-question {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            margin: 20px 0;
+            margin: 15px 0;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 8px;
             border: 1px solid #ddd;
             white-space: pre-line;
+            position: relative;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .xuyen-thau-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(142, 68, 173, 0.97);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 10;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Nút sử dụng đồ bên trong khung câu hỏi */
+        .use-item-container {
+            margin-bottom: 12px;
+            display: none;
+        }
+        .btn-use-item {
+            background: #f39c12;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: 0.2s;
+        }
+        .btn-use-item:hover {
+            background: #d35400;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        .btn-use-item:disabled {
+            background: #95a5a6;
+            color: #fff;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* CÔNG CỤ KÍNH LÚP SOI ĐÁP ÁN */
+        .magnifying-glass-tool {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 4px solid #f39c12;
+            background: rgba(255, 243, 205, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            z-index: 1010;
+            user-select: none;
+            touch-action: none;
+            text-align: center;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .magnifying-glass-tool:active {
+            cursor: grabbing;
+        }
+        .magnifying-glass-tool::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            right: -8px;
+            width: 25px;
+            height: 8px;
+            background: #d35400;
+            transform: rotate(45deg);
+            border-radius: 4px;
+        }
+        .lens-content {
+            font-size: 13px;
+            font-weight: bold;
+            color: #c0392b;
+            word-break: break-all;
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         input[type="text"], input[type="password"] {
@@ -297,6 +447,41 @@
             cursor: pointer;
         }
 
+        /* Style cho Shop Item */
+        .shop-item {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .shop-item-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .shop-item-price {
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-buy {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-buy:hover { background: #c0392b; }
+
         #feedback {
             margin-top: 15px;
             font-weight: bold;
@@ -304,7 +489,7 @@
             min-height: 20px;
         }
 
-        /* Responsive cho điện thoại di động */
+        /* Responsive */
         @media (max-width: 768px) {
             .grid-container {
                 grid-template-columns: repeat(5, 1fr);
@@ -319,26 +504,41 @@
             }
             .watermark-text {
                 font-size: 11px;
-                padding: 15px;
+                padding: 6px 8px;
+            }
+            .shop-box, .ba-khi-box {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            .modal-box {
+                width: 90%;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Lớp nền chữ THỬ NGHIỆM phủ khắp màn hình -->
+    <!-- Lớp nền chữ THỬ NGHIỆM dày đặc khắp màn hình -->
     <div class="watermark-bg" id="watermarkBg"></div>
+
+    <!-- Nút SHOP ở góc trên bên trái -->
+    <div class="shop-box" onclick="openShop()">
+        🛒 Shop
+    </div>
 
     <!-- Vùng tàng hình ở góc dưới bên trái -->
     <div class="admin-menu-toggle" onclick="toggleAdminMenu()"></div>
 
-    <!-- Bảng Điều Khiển Admin -->
+    <!-- Bảng Điều Khiển Admin (Có thể kéo thả) -->
     <div class="admin-panel" id="adminPanel" onmousemove="resetInactivityTimer()" onclick="resetInactivityTimer()">
         <div class="admin-header" id="adminHeader">
-            <h3>Bảng Điều Khiển</h3>
+            <h3>Bảng Điều Khiển (Kéo ở đây)</h3>
         </div>
         <button class="admin-btn" onclick="autoSolveAll()">🚀 Auto Hoàn Thành Tất Cả</button>
         <button class="admin-btn" onclick="revealAnswer()">👁️ Soi Đáp Án Câu Này</button>
+        <button class="admin-btn cong-hoai-btn" onclick="useCongHoai()">🔮 Công Hoài (Nhìn Xuyên)</button>
+        <button class="admin-btn ba-khi-edit-btn" onclick="editBaKhiScore()">⚙️ Điều Chỉnh Bá Khí</button>
         <div id="answer-viewer">Chưa mở câu hỏi nào...</div>
     </div>
 
@@ -357,9 +557,18 @@
 
     <!-- Cửa sổ hiển thị câu hỏi -->
     <div class="modal-overlay" id="modal">
-        <div class="modal-box">
+        <div class="modal-box" id="modalBox">
             <h2 id="modal-title">CÂU HỎI X</h2>
-            <div id="math-question">Đang tải câu hỏi...</div>
+            
+            <!-- Nút sử dụng đồ (Chỉ hiện nếu đã sở hữu Kính Lúp) -->
+            <div class="use-item-container" id="useItemContainer">
+                <button class="btn-use-item" id="btnUseMagnifier" onclick="useMagnifierTool()">🎒 Sử dụng Kính Lúp (Còn lại: <span id="magnifierUses">0</span> lần)</button>
+            </div>
+
+            <div id="math-question">
+                <span id="question-text">Đang tải câu hỏi...</span>
+                <div id="xuyenThauLayer" class="xuyen-thau-overlay" style="display: none;"></div>
+            </div>
             <input type="text" id="answer-input" placeholder="Nhập đáp án của bạn vào đây..." autocomplete="off">
             <br>
             <button class="btn-submit" id="submit-btn" onclick="checkAnswer()">Trả Lời</button>
@@ -368,10 +577,31 @@
         </div>
     </div>
 
+    <!-- Kính lúp soi đáp án -->
+    <div id="magnifyingGlass" class="magnifying-glass-tool">
+        <div class="lens-content" id="lensContent">🔍</div>
+    </div>
+
+    <!-- Cửa sổ Cửa Hàng (Shop Modal) -->
+    <div class="shop-modal-overlay" id="shopModal">
+        <div class="shop-modal-box">
+            <h2>🛒 Cửa Hàng Bá Khí</h2>
+            <p>Dùng bá khí tích lũy để mua hoặc nạp thêm lượt Kính Lúp khi hết!</p>
+            
+            <div class="shop-item">
+                <div class="shop-item-title">🔍 Kính Lúp Soi Đáp Án</div>
+                <div class="shop-item-price">Giá: 25,000,000 Bá Khí</div>
+                <div style="font-size: 13px; color: #666;">Mua mới hoặc mua thêm để được cộng ngay 2 lượt sử dụng kính lúp ma thuật.</div>
+                <button class="btn-buy" id="buyMachineBtn" onclick="buyAnswerMachine()">Mua / Nạp Thêm (+2 Lượt)</button>
+            </div>
+
+            <button class="btn-close" onclick="closeShop()">Đóng Cửa Hàng</button>
+        </div>
+    </div>
+
     <script>
-        // Tự động tạo chữ "THỬ NGHIỆM" phủ kín màn hình
         const watermarkBg = document.getElementById('watermarkBg');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 120; i++) {
             const span = document.createElement('span');
             span.classList.add('watermark-text');
             span.innerText = "THỬ NGHIỆM";
@@ -380,20 +610,36 @@
 
         const grid = document.getElementById('grid');
         const modal = document.getElementById('modal');
+        const modalBox = document.getElementById('modalBox');
         const modalTitle = document.getElementById('modal-title');
-        const questionDisplay = document.getElementById('math-question');
+        const questionText = document.getElementById('question-text');
         const answerInput = document.getElementById('answer-input');
         const submitBtn = document.getElementById('submit-btn');
         const feedback = document.getElementById('feedback');
         const baKhiScoreDisplay = document.getElementById('ba-khi-score');
+        const xuyenThauLayer = document.getElementById('xuyenThauLayer');
         
+        const shopModal = document.getElementById('shopModal');
+        const buyMachineBtn = document.getElementById('buyMachineBtn');
+        const magnifyingGlass = document.getElementById('magnifyingGlass');
+        const lensContent = document.getElementById('lensContent');
+        const useItemContainer = document.getElementById('useItemContainer');
+        const btnUseMagnifier = document.getElementById('btnUseMagnifier');
+        const magnifierUsesDisplay = document.getElementById('magnifierUses');
+
         let currentQuestionAnswer = null;
+        let currentSolutionGuide = "";
         let currentCircleId = null;
         let baKhiScore = 0; 
         let solvedCount = 0;
         let isProcessing = false;
         let isAdminUnlocked = false;
         let inactivityTimer = null;
+        let xuyenThauTimeout = null;
+
+        let hasAnswerMachine = false;
+        let globalRemainingUses = 0; // Số lượt kính lúp hiện có
+        let congHoaiUsed = {};
 
         function updateBaKhiDisplay() {
             baKhiScoreDisplay.innerText = baKhiScore.toLocaleString();
@@ -415,7 +661,6 @@
             grid.appendChild(circle);
         }
 
-        // Bắt sự kiện Enter khi nhập đáp án
         answerInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -427,12 +672,41 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        // --- TÍNH NĂNG KÉO THẢ BẢNG ADMIN ---
+        const adminPanel = document.getElementById('adminPanel');
+        const adminHeader = document.getElementById('adminHeader');
+        let isAdminDragging = false;
+        let adminStartX, adminStartY;
+
+        adminHeader.addEventListener('mousedown', (e) => {
+            isAdminDragging = true;
+            adminStartX = e.clientX - adminPanel.offsetLeft;
+            adminStartY = e.clientY - adminPanel.offsetTop;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isAdminDragging) return;
+            let newX = e.clientX - adminStartX;
+            let newY = e.clientY - adminStartY;
+            adminPanel.style.left = newX + 'px';
+            adminPanel.style.top = newY + 'px';
+            adminPanel.style.bottom = 'auto';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isAdminDragging = false;
+        });
+
         // MỞ CÂU HỎI THEO CẤP ĐỘ
         function openQuestion(id) {
             let circle = document.getElementById('circle-' + id);
             if (circle.classList.contains('solved')) {
                 return;
             }
+
+            clearTimeout(xuyenThauTimeout);
+            xuyenThauLayer.style.display = 'none';
 
             currentCircleId = id;
             modalTitle.innerText = `CÂU HỎI ${id}`;
@@ -443,8 +717,26 @@
             submitBtn.disabled = false;
             isProcessing = false;
 
+            // Cập nhật số lần dùng còn lại theo toàn cục
+            magnifierUsesDisplay.innerText = globalRemainingUses;
+            magnifyingGlass.style.display = 'none';
+
+            if (hasAnswerMachine) {
+                useItemContainer.style.display = 'block';
+                if (globalRemainingUses > 0) {
+                    btnUseMagnifier.disabled = false;
+                    btnUseMagnifier.innerText = `🎒 Sử dụng Kính Lúp (Còn lại: ${globalRemainingUses} lần)`;
+                } else {
+                    btnUseMagnifier.disabled = true;
+                    btnUseMagnifier.innerText = "🎒 Đã hết lượt! Vào Shop mua thêm";
+                }
+            } else {
+                useItemContainer.style.display = 'none';
+            }
+
             let qText = "";
             let qAns = 0;
+            let qGuide = "";
 
             if (id <= 10) {
                 let type = rand(1, 3);
@@ -454,18 +746,21 @@
                     let c = rand(1, 10);
                     qText = `${a} - ${b} + ${c} = ?`;
                     qAns = a - b + c;
+                    qGuide = `Thực hiện phép tính lần lượt từ trái sang phải:\n1) ${a} - ${b} = ${a - b}\n2) Kết quả + ${c} = ${qAns}`;
                 } else if (type === 2) {
                     let a = rand(5, 20);
                     let b = rand(2, 6);
                     let c = rand(1, 10);
                     qText = `${a} + ${b} × ${c} = ?`;
                     qAns = a + (b * c);
+                    qGuide = `Ưu tiên phép nhân trước, phép cộng sau:\n1) ${b} × ${c} = ${b * c}\n2) ${a} + ${b * c} = ${qAns}`;
                 } else {
                     let x = rand(1, 20);
                     let b = rand(5, 25);
                     let a = x + b;
                     qText = `Tìm X biết:\nX + ${b} = ${a}`;
                     qAns = x;
+                    qGuide = `Chuyển vế tìm X:\nX = ${a} - ${b} = ${qAns}`;
                 }
             } 
             else if (id <= 30) {
@@ -476,6 +771,7 @@
                     let c = rand(5, 30);
                     qText = `${a} - ${b} × ${c} = ?`;
                     qAns = a - (b * c);
+                    qGuide = `Ưu tiên phép nhân trước:\n1) ${b} × ${c} = ${b * c}\n2) ${a} - ${b * c} = ${qAns}`;
                 } else if (type === 2) {
                     let x = rand(2, 12);
                     let b = rand(3, 10);
@@ -483,12 +779,14 @@
                     let a = (b * x) + c;
                     qText = `Tìm X biết:\n${b} × X + ${c} = ${a}`;
                     qAns = x;
+                    qGuide = `Giải phương trình bậc nhất:\n1) ${b} × X = ${a} - ${c} = ${a - c}\n2) X = ${a - c} ÷ ${b} = ${qAns}`;
                 } else {
                     let a = rand(10, 50);
                     let b = rand(2, 10);
                     let c = rand(2, 8);
                     qText = `(${a} + ${b}) ÷ ${c} = ?`;
                     qAns = (a + b) / c;
+                    qGuide = `Tính trong ngoặc trước:\n1) ${a} + ${b} = ${a + b}\n2) Lấy kết quả chia ${c} = ${qAns}`;
                 }
             }
             else if (id <= 40) {
@@ -499,16 +797,19 @@
                     let c = rand(2, 8);
                     qText = `(${a}X - ${b}) ÷ ${c} = 2\nTìm X = ?`;
                     qAns = (2 * c + b) / a;
+                    qGuide = `Giải phương trình:\n1) ${a}X - ${b} = 2 × ${c} = ${2 * c}\n2) ${a}X = ${2 * c} + ${b} = ${2 * c + b}\n3) X = ${qAns}`;
                 } else if (type === 2) {
                     let p = rand(10, 50);
                     let val = rand(2, 10) * 20;
                     let total = val * 100 / p;
                     qText = `Biết ${p}% của một số bằng ${val}.\nHỏi số đó bằng bao nhiêu?`;
                     qAns = total;
+                    qGuide = `Tính giá trị toàn phần:\nLấy ${val} nhân 100 rồi chia cho ${p} = ${qAns}`;
                 } else {
                     let n = rand(3, 9);
                     qText = `Tính tổng dãy số:\n1 + 2 + 3 + ... + ${n} = ?`;
                     qAns = (n * (n + 1)) / 2;
+                    qGuide = `Áp dụng công thức tổng cấp số cộng:\n[${n} × (${n} + 1)] ÷ 2 = ${qAns}`;
                 }
             }
             else {
@@ -518,28 +819,149 @@
                     let b = rand(1, 6);
                     qText = `Cho hàm số f(x) = ${a}x³ - ${b}x.\nTính đạo hàm f'(2) = ?`;
                     qAns = a * 3 * (2 * 2) - b;
+                    qGuide = `Đạo hàm f'(x) = ${a * 3}x² - ${b}\nThay x = 2 vào ta được kết quả: ${qAns}`;
                 } else if (type === 2) {
                     let a = rand(2, 6);
                     qText = `Tính giới hạn:\nlim(x→3) [ (x² - 9) / (x - 3) ] = ?`;
                     qAns = 6;
+                    qGuide = `Phân tích tử thức thành nhân tử:\n(x - 3)(x + 3) / (x - 3) = x + 3. Thay x = 3 ta được ${qAns}`;
                 } else if (type === 3) {
                     let r = rand(2, 5);
                     qText = `Tính diện tích hình tròn có bán kính R = ${r}.\n(Lấy pi = 3, kết quả làm tròn hoặc ghi số nguyên gần nhất)`;
                     qAns = Math.round(3 * r * r);
+                    qGuide = `Công thức diện tích S = pi × R²\nS = 3 × ${r}² = ${qAns}`;
                 } else {
                     let a = rand(2, 5);
                     let b = rand(2, 5);
                     qText = `Tính thể tích hình hộp chữ nhật\nco các cạnh lần lượt là ${a}, ${b}, ${a}`;
                     qAns = a * b * a;
+                    qGuide = `Thể tích V = dài × rộng × cao\nV = ${a} × ${b} × ${a} = ${qAns}`;
                 }
             }
 
-            questionDisplay.innerText = qText;
+            questionText.innerText = qText;
             currentQuestionAnswer = qAns;
+            currentSolutionGuide = qGuide;
+
             modal.style.display = 'flex';
             setTimeout(() => answerInput.focus(), 100);
 
             updateAdminAnswerViewer();
+        }
+
+        // --- HÀM KHI BẤM NÚT SỬ DỤNG KÍNH LÚP ---
+        function useMagnifierTool() {
+            if (globalRemainingUses <= 0) {
+                alert("Bạn đã hết lượt dùng kính lúp! Vui lòng vào Shop để mua thêm.");
+                return;
+            }
+
+            globalRemainingUses--;
+            magnifierUsesDisplay.innerText = globalRemainingUses;
+
+            if (globalRemainingUses === 0) {
+                btnUseMagnifier.disabled = true;
+                btnUseMagnifier.innerText = "🎒 Đã hết lượt! Vào Shop mua thêm";
+            } else {
+                btnUseMagnifier.innerText = `🎒 Sử dụng Kính Lúp (Còn lại: ${globalRemainingUses} lần)`;
+            }
+
+            // Hiển thị kính lúp cạnh hộp thoại
+            let boxRect = modalBox.getBoundingClientRect();
+            magnifyingGlass.style.left = (boxRect.left + 20) + 'px';
+            magnifyingGlass.style.top = (boxRect.top + 50) + 'px';
+            lensContent.innerText = "🔍 Kéo tôi";
+            magnifyingGlass.style.display = 'flex';
+        }
+
+        // --- TÍNH NĂNG KÉO THẢ KÍNH LÚP (Bám sát mọi vị trí chuột/ngón tay) ---
+        let isGlassDragging = false;
+        let glassOffsetX = 0;
+        let glassOffsetY = 0;
+
+        magnifyingGlass.addEventListener('mousedown', startGlassDrag);
+        magnifyingGlass.addEventListener('touchstart', startGlassDrag, {passive: false});
+
+        document.addEventListener('mousemove', onGlassDrag);
+        document.addEventListener('touchmove', onGlassDrag, {passive: false});
+
+        document.addEventListener('mouseup', endGlassDrag);
+        document.addEventListener('touchend', endGlassDrag);
+
+        function startGlassDrag(e) {
+            isGlassDragging = true;
+            let clientX = e.clientX || e.touches[0].clientX;
+            let clientY = e.clientY || e.touches[0].clientY;
+            
+            glassOffsetX = clientX - magnifyingGlass.offsetLeft;
+            glassOffsetY = clientY - magnifyingGlass.offsetTop;
+            
+            e.preventDefault();
+        }
+
+        function onGlassDrag(e) {
+            if (!isGlassDragging) return;
+            let clientX = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+            let clientY = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+
+            let newX = clientX - glassOffsetX;
+            let newY = clientY - glassOffsetY;
+
+            magnifyingGlass.style.left = newX + 'px';
+            magnifyingGlass.style.top = newY + 'px';
+
+            let glassRect = magnifyingGlass.getBoundingClientRect();
+            let qRect = questionText.getBoundingClientRect();
+            let inputRect = answerInput.getBoundingClientRect();
+
+            let isOverQuestion = !(glassRect.right < qRect.left || glassRect.left > qRect.right || glassRect.bottom < qRect.top || glassRect.top > qRect.bottom);
+            let isOverInput = !(glassRect.right < inputRect.left || glassRect.left > inputRect.right || glassRect.bottom < inputRect.top || glassRect.top > inputRect.bottom);
+
+            if (isOverQuestion || isOverInput) {
+                lensContent.innerText = "Đ: " + currentQuestionAnswer;
+                lensContent.style.color = "#27ae60";
+            } else {
+                lensContent.innerText = "🔍 Kéo tôi";
+                lensContent.style.color = "#c0392b";
+            }
+
+            if (e.type === 'touchmove') e.preventDefault();
+        }
+
+        function endGlassDrag() {
+            isGlassDragging = false;
+        }
+
+        // --- CÁC HÀM SHOP ---
+        function openShop() {
+            shopModal.style.display = 'flex';
+        }
+
+        function closeShop() {
+            shopModal.style.display = 'none';
+        }
+
+        function buyAnswerMachine() {
+            const cost = 25000000;
+            if (baKhiScore >= cost) {
+                baKhiScore -= cost;
+                hasAnswerMachine = true;
+                globalRemainingUses += 2; // Cộng thêm 2 lượt vào kho
+                updateBaKhiDisplay();
+
+                // Cập nhật lại giao diện nút trong câu hỏi nếu đang mở
+                if (modal.style.display === 'flex') {
+                    useItemContainer.style.display = 'block';
+                    btnUseMagnifier.disabled = false;
+                    magnifierUsesDisplay.innerText = globalRemainingUses;
+                    btnUseMagnifier.innerText = `🎒 Sử dụng Kính Lúp (Còn lại: ${globalRemainingUses} lần)`;
+                }
+
+                alert(`🎉 MUA THÀNH CÔNG! Đã cộng thêm 2 lượt Kính Lúp vào tài khoản của bạn (Tổng số lượt hiện có: ${globalRemainingUses}).`);
+                closeShop();
+            } else {
+                alert(`❌ Bạn không đủ bá khí! Bạn cần có ít nhất ${cost.toLocaleString()} bá khí để mua/nạp thêm (Hiện tại có: ${baKhiScore.toLocaleString()}).`);
+            }
         }
 
         // KIỂM TRA ĐÁP ÁN
@@ -592,7 +1014,10 @@
         }
 
         function closeModal() {
+            clearTimeout(xuyenThauTimeout);
+            xuyenThauLayer.style.display = 'none';
             modal.style.display = 'none';
+            magnifyingGlass.style.display = 'none';
         }
 
         // --- CÁC HÀM ADMIN ---
@@ -645,9 +1070,9 @@
         function updateAdminAnswerViewer() {
             let viewer = document.getElementById('answer-viewer');
             if (currentQuestionAnswer !== null && currentCircleId !== null) {
-                viewer.innerText = `💡 Câu ${currentCircleId}: ${currentQuestionAnswer}`;
+                viewer.innerText = `💡 Câu ${currentCircleId}: Sẵn sàng`;
             } else {
-                viewer.innerText = "⚠️ Hãy bấm mở 1 câu hỏi bất kỳ trước!";
+                viewer.innerText = "⚠️ Hãy mở 1 câu hỏi bất kỳ trước!";
             }
         }
 
@@ -661,9 +1086,52 @@
             }
         }
 
+        function useCongHoai() {
+            resetInactivityTimer();
+            if (currentQuestionAnswer === null || currentCircleId === null) {
+                alert("⚠️ Hãy mở một câu hỏi trước khi dùng Công Hoài!");
+                return;
+            }
+
+            if (congHoaiUsed[currentCircleId]) {
+                alert(`⚠️ Câu hỏi ${currentCircleId} đã dùng quyền Công Hoài rồi! Mỗi câu chỉ được dùng 1 lần.`);
+                return;
+            }
+
+            congHoaiUsed[currentCircleId] = true;
+            answerInput.value = currentQuestionAnswer;
+
+            xuyenThauLayer.innerHTML = `
+                <div>🔮 <strong>NHÌN XUYÊN THẤU (10s)</strong></div>
+                <div style="color: #f1c40f; margin: 4px 0; font-size: 18px;">Đáp án: ${currentQuestionAnswer}</div>
+                <div style="font-size: 13px; font-weight: normal; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 4px; white-space: pre-line; width: 100%; box-sizing: border-box;">📝 <strong>Cách giải:</strong><br>${currentSolutionGuide}</div>
+            `;
+            xuyenThauLayer.style.display = 'flex';
+
+            clearTimeout(xuyenThauTimeout);
+            xuyenThauTimeout = setTimeout(() => {
+                xuyenThauLayer.style.display = 'none';
+            }, 10000);
+        }
+
+        function editBaKhiScore() {
+            resetInactivityTimer();
+            let inputVal = prompt(`Nhập số lượng bá khí mới bạn muốn đặt (Hiện tại: ${baKhiScore}):`, baKhiScore);
+            if (inputVal !== null) {
+                let newScore = parseInt(inputVal);
+                if (!isNaN(newScore)) {
+                    baKhiScore = newScore;
+                    updateBaKhiDisplay();
+                    alert(`⚙️ Đã cập nhật thành công số bá khí thành: ${baKhiScore.toLocaleString()}`);
+                } else {
+                    alert("❌ Vui lòng nhập vào một số hợp lệ!");
+                }
+            }
+        }
+
         function autoSolveAll() {
             resetInactivityTimer();
-            if(!confirm("Bạn có chắc chắn muốn auto hoàn thành toàn bộ 50 cửa ải không?")) return;
+            if(!confirm("Hành động này sẽ giải hết 50 câu hỏi. Bạn có chắc chắn không?")) return;
             
             for (let i = 1; i <= 50; i++) {
                 let circle = document.getElementById('circle-' + i);
@@ -673,37 +1141,10 @@
                     solvedCount++;
                 }
             }
-            baKhiScore += (49 * 999999) + 2000000;
+            baKhiScore += 50000000;
             updateBaKhiDisplay();
-            alert("👑 ĐÃ AUTO HOÀN THÀNH XUẤT SẮC 50 CỬA ẢI VÀ NHẬN THƯỞNG 2 TRIỆU BÁ KHÍ!");
+            alert("🚀 Đã auto hoàn thành tất cả 50 cửa ải thành công!");
             closeAdminPanel();
-        }
-
-        // --- TÍNH NĂNG KÉO THẢ BẢNG ADMIN ---
-        const adminPanel = document.getElementById('adminPanel');
-        const adminHeader = document.getElementById('adminHeader');
-        let isDragging = false;
-        let offsetX, offsetY;
-
-        adminHeader.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - adminPanel.offsetLeft;
-            offsetY = e.clientY - adminPanel.offsetTop;
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        });
-
-        function onMouseMove(e) {
-            if (!isDragging) return;
-            adminPanel.style.left = (e.clientX - offsetX) + 'px';
-            adminPanel.style.top = (e.clientY - offsetY) + 'px';
-            adminPanel.style.bottom = 'auto'; 
-        }
-
-        function onMouseUp() {
-            isDragging = false;
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
         }
     </script>
 </body>
